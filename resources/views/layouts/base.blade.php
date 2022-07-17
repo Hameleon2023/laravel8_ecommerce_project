@@ -41,11 +41,9 @@
 							</ul>
 						</div>
 						<div class="topbar-menu right-menu">
-							<ul>
-								<li class="menu-item" ><a title="Register or Login" href="login.html">Login</a></li>
-								<li class="menu-item" ><a title="Register or Login" href="register.html">Register</a></li>
+							<ul>	
 								<li class="menu-item lang-menu menu-item-has-children parent">
-									<a title="English" href="#"><span class="img label-before"><img src="{{asset('assets/images/lang-en.png" alt="lang-en')}}"></span>English<i class="fa fa-angle-down" aria-hidden="true"></i></a>
+									<a title="English" href="#"><span class="img label-before"><img src="{{asset('assets/images/lang-en.png')}}"></span>English<i class="fa fa-angle-down" aria-hidden="true"></i></a>
 									<ul class="submenu lang" >
 										<li class="menu-item" ><a title="hungary" href="#"><span class="img label-before"><img src="{{asset('assets/images/lang-hun.png')}}" alt="lang-hun"></span>Hungary</a></li>
 										<li class="menu-item" ><a title="german" href="#"><span class="img label-before"><img src="{{asset('assets/images/lang-ger.png')}}" alt="lang-ger" ></span>German</a></li>
@@ -56,17 +54,63 @@
 								<li class="menu-item menu-item-has-children parent" >
 									<a title="Dollar (USD)" href="#">Dollar (USD)<i class="fa fa-angle-down" aria-hidden="true"></i></a>
 									<ul class="submenu curency" >
-										<li class="menu-item" >
-											<a title="Pound (GBP)" href="#">Pound (GBP)</a>
-										</li>
-										<li class="menu-item" >
-											<a title="Euro (EUR)" href="#">Euro (EUR)</a>
-										</li>
-										<li class="menu-item" >
-											<a title="Dollar (USD)" href="#">Dollar (USD)</a>
-										</li>
+											<li class="menu-item" >
+												<a title="Pound (GBP)" href="#">Pound (GBP)</a>
+											</li>
+											<li class="menu-item" >
+												<a title="Euro (EUR)" href="#">Euro (EUR)</a>
+											</li>
+											<li class="menu-item" >
+												<a title="Dollar (USD)" href="#">Dollar (USD)</a>
+											</li>
 									</ul>
-								</li>
+								</li>												
+								@if (Route::has('login')) 
+                    @auth
+										@if (Auth::user()->utype==='ADM')
+										  <li class="menu-item menu-item-has-children parent" >
+									      <a title="My account" href="#">My account ({{Auth::user()->name}})<i class="fa fa-angle-down" aria-hidden="true"></i></a>
+									      <ul class="submenu curency" >
+										        <li class="menu-item" >
+											        <a title="Dashboard" href="{{route('admin.dashboard')}}">Dashboard</a>
+										        </li>
+														<li class="menu-item" >
+															<a href="{{route('logout')}}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a>
+															<form id="logout-form" method="POST" action="{{route('logout')}}" >
+																@csrf
+											        
+														   </form>
+										        </li>		
+
+									      </ul>
+								      </li>				
+										@else
+										<li class="menu-item menu-item-has-children parent" >
+											<a title="My account" href="#">My account {{Auth::user()->name}}<i class="fa fa-angle-down" aria-hidden="true"></i></a>
+											<ul class="submenu curency" >
+													<li class="menu-item" >
+														<a title="Dashboard" href="{{route('user.dashboard')}}">Dashboard</a>
+													</li>	
+													<li class="menu-item" >
+														<a href="{{route('logout')}}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a>	
+														<form id="logout-form" action="{{route('logout')}}" method="post">
+															@csrf
+														
+														 </form>
+													</li>										        
+											</ul>
+										</li>		
+
+										@endif
+									
+								    @else
+										{{-- если пользователь не аутентифицирован показываем эти ссылки--}}   
+										<li class="menu-item" ><a title="Register or Login" href="{{route('login')}}">Login</a></li>        
+										<li class="menu-item" ><a title="Register or Login" href="{{route('register')}}">Register</a></li>
+								    @endif
+
+								
+								@endif
 							</ul>
 						</div>
 					</div>

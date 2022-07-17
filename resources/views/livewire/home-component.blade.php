@@ -1,3 +1,4 @@
+@section('content')
 <main id="main">
 		<div class="container">
 
@@ -1035,3 +1036,5 @@
 			</div>
 		</div>
 	</main>
+
+	@endsection

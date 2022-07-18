@@ -252,8 +252,8 @@
 		</div>
 	</header>
 
-{{-- {{$slot}} --}}
-@yield('content')
+{{$slot}}
+
 
 
 

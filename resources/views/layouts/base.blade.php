@@ -8,14 +8,14 @@
     <link rel="shortcut icon" type="image/x-icon" href="{{asset('assets/images/favicon.ico')}}">
 	<link href="https://fonts.googleapis.com/css?family=Lato:300,400,400italic,700,700italic,900,900italic&amp;subset=latin,latin-ext" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/css?family=Open%20Sans:300,400,400italic,600,600italic,700,700italic&amp;subset=latin,latin-ext" rel="stylesheet">
-	<link rel="stylesheet" type="text/css" href="{{asset('assets/css/animate.css')}}">
-	<link rel="stylesheet" type="text/css" href="{{asset('assets/css/font-awesome.min.css')}}">
-	<link rel="stylesheet" type="text/css" href="{{asset('assets/css/bootstrap.min.css')}}">
-	<link rel="stylesheet" type="text/css" href="{{asset('assets/css/owl.carousel.min.css')}}">
-	<link rel="stylesheet" type="text/css" href="{{asset('assets/css/chosen.min.css')}}">
-	<link rel="stylesheet" type="text/css" href="{{asset('assets/css/style.css')}}">
-	<link rel="stylesheet" type="text/css" href="{{asset('assets/css/color-01.css')}}">
-  @liviwireStyles
+	<link rel="stylesheet" type="text/css" href="{{asset('/assets/css/animate.css')}}">
+	<link rel="stylesheet" type="text/css" href="{{asset('/assets/css/font-awesome.min.css')}}">
+	<link rel="stylesheet" type="text/css" href="{{asset('/assets/css/bootstrap.min.css')}}">
+	<link rel="stylesheet" type="text/css" href="{{asset('/assets/css/owl.carousel.min.css')}}">
+	<link rel="stylesheet" type="text/css" href="{{asset('/assets/css/chosen.min.css')}}">
+	<link rel="stylesheet" type="text/css" href="{{asset('/assets/css/style.css')}}">
+	<link rel="stylesheet" type="text/css" href="{{asset('/assets/css/color-01.css')}}">
+  @livewireStyles
 </head>
 <body class="home-page home-01 ">
 
@@ -41,11 +41,9 @@
 							</ul>
 						</div>
 						<div class="topbar-menu right-menu">
-							<ul>
-								<li class="menu-item" ><a title="Register or Login" href="login.html">Login</a></li>
-								<li class="menu-item" ><a title="Register or Login" href="register.html">Register</a></li>
+							<ul>	
 								<li class="menu-item lang-menu menu-item-has-children parent">
-									<a title="English" href="#"><span class="img label-before"><img src="{{asset('assets/images/lang-en.png" alt="lang-en')}}"></span>English<i class="fa fa-angle-down" aria-hidden="true"></i></a>
+									<a title="English" href="#"><span class="img label-before"><img src="{{asset('assets/images/lang-en.png')}}"></span>English<i class="fa fa-angle-down" aria-hidden="true"></i></a>
 									<ul class="submenu lang" >
 										<li class="menu-item" ><a title="hungary" href="#"><span class="img label-before"><img src="{{asset('assets/images/lang-hun.png')}}" alt="lang-hun"></span>Hungary</a></li>
 										<li class="menu-item" ><a title="german" href="#"><span class="img label-before"><img src="{{asset('assets/images/lang-ger.png')}}" alt="lang-ger" ></span>German</a></li>
@@ -56,17 +54,63 @@
 								<li class="menu-item menu-item-has-children parent" >
 									<a title="Dollar (USD)" href="#">Dollar (USD)<i class="fa fa-angle-down" aria-hidden="true"></i></a>
 									<ul class="submenu curency" >
-										<li class="menu-item" >
-											<a title="Pound (GBP)" href="#">Pound (GBP)</a>
-										</li>
-										<li class="menu-item" >
-											<a title="Euro (EUR)" href="#">Euro (EUR)</a>
-										</li>
-										<li class="menu-item" >
-											<a title="Dollar (USD)" href="#">Dollar (USD)</a>
-										</li>
+											<li class="menu-item" >
+												<a title="Pound (GBP)" href="#">Pound (GBP)</a>
+											</li>
+											<li class="menu-item" >
+												<a title="Euro (EUR)" href="#">Euro (EUR)</a>
+											</li>
+											<li class="menu-item" >
+												<a title="Dollar (USD)" href="#">Dollar (USD)</a>
+											</li>
 									</ul>
-								</li>
+								</li>												
+								@if (Route::has('login')) 
+                    @auth
+										@if (Auth::user()->utype==='ADM')
+										  <li class="menu-item menu-item-has-children parent" >
+									      <a title="My account" href="#">My account ({{Auth::user()->name}})<i class="fa fa-angle-down" aria-hidden="true"></i></a>
+									      <ul class="submenu curency" >
+										        <li class="menu-item" >
+											        <a title="Dashboard" href="{{route('admin.dashboard')}}">Dashboard</a>
+										        </li>
+														<li class="menu-item" >
+															<a href="{{route('logout')}}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a>
+															<form id="logout-form" method="POST" action="{{route('logout')}}" >
+																@csrf
+											        
+														   </form>
+										        </li>		
+
+									      </ul>
+								      </li>				
+										@else
+										<li class="menu-item menu-item-has-children parent" >
+											<a title="My account" href="#">My account {{Auth::user()->name}}<i class="fa fa-angle-down" aria-hidden="true"></i></a>
+											<ul class="submenu curency" >
+													<li class="menu-item" >
+														<a title="Dashboard" href="{{route('user.dashboard')}}">Dashboard</a>
+													</li>	
+													<li class="menu-item" >
+														<a href="{{route('logout')}}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a>	
+														<form id="logout-form" action="{{route('logout')}}" method="post">
+															@csrf
+														
+														 </form>
+													</li>										        
+											</ul>
+										</li>		
+
+										@endif
+									
+								    @else
+										{{-- если пользователь не аутентифицирован показываем эти ссылки--}}   
+										<li class="menu-item" ><a title="Register or Login" href="{{route('login')}}">Login</a></li>        
+										<li class="menu-item" ><a title="Register or Login" href="{{route('register')}}">Register</a></li>
+								    @endif
+
+								
+								@endif
 							</ul>
 						</div>
 					</div>
@@ -165,13 +209,13 @@
 									<a href="about-us.html" class="link-term mercado-item-title">About Us</a>
 								</li>
 								<li class="menu-item">
-									<a href="shop.html" class="link-term mercado-item-title">Shop</a>
+									<a href="/shop" class="link-term mercado-item-title">Shop</a>
 								</li>
 								<li class="menu-item">
-									<a href="cart.html" class="link-term mercado-item-title">Cart</a>
+									<a href="/cart" class="link-term mercado-item-title">Cart</a>
 								</li>
 								<li class="menu-item">
-									<a href="checkout.html" class="link-term mercado-item-title">Checkout</a>
+									<a href="/checkout" class="link-term mercado-item-title">Checkout</a>
 								</li>
 								<li class="menu-item">
 									<a href="contact-us.html" class="link-term mercado-item-title">Contact Us</a>
@@ -184,7 +228,9 @@
 		</div>
 	</header>
 
-{{$slot}}
+{{-- {{$slot}} --}}
+@yield('content')
+
 
 
 	<footer id="footer">
